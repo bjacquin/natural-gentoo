@@ -1,0 +1,15 @@
+######################
+### Natural Gentoo ###
+######################
+
+
+Description
+-----------
+
+Grub and Splashutils boot screen theme with original size of Gentoo logo.
+
+
+Installation
+------------
+
+ebuild: http://bugs.gentoo.org/show_bug.cgi?id=224127

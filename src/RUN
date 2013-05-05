@@ -1,0 +1,20 @@
+#!/bin/bash
+
+for R in $(cat ./RESOLUTIONS); do
+	echo "Resolution ${R}:"
+	X=${R//x*/}
+	Y=${R//*x/}
+
+	### Generate config files
+	echo " - config"
+	m4 -DX=${X} -DY=${Y} ./templates/config.m4 > ../etc/splash/natural-gentoo/${R}.cfg
+
+	### Generate images
+	echo " - images"
+	# Not very reliable (some missing images)
+	#m4 -DX=${X} -DY=${Y} ./templates/silent.svg.m4 | convert - ../etc/splash/natural-gentoo/images/silent-${R}.jpg
+	#m4 -DX=${X} -DY=${Y} ./templates/verbose.svg.m4 | convert - ../etc/splash/natural-gentoo/images/verbose-${R}.jpg
+	# Much more reliable
+	m4 -DX=${X} -DY=${Y} ./templates/silent.svg.m4 > ./silent-${R}.svg && inkscape --without-gui --export-png ./silent-${R}.png ./silent-${R}.svg 1>/dev/null && convert ./silent-${R}.png ../etc/splash/natural-gentoo/images/silent-${R}.jpg && rm -f ./silent-${R}.*
+	m4 -DX=${X} -DY=${Y} ./templates/verbose.svg.m4 > ./verbose-${R}.svg && inkscape --without-gui --export-png ./verbose-${R}.png ./verbose-${R}.svg 1>/dev/null && convert ./verbose-${R}.png ../etc/splash/natural-gentoo/images/verbose-${R}.jpg && rm -f ./verbose-${R}.*
+done
